@@ -1,0 +1,27 @@
+name: Cron ping (headless browser)
+
+on:
+  schedule:
+    - cron: '0,15,30,45 * * * *'
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 20
+      - run: npm install playwright
+      - run: npx playwright install --with-deps chromium
+      - name: Ping every ~5 minutes for this run's lifetime
+        env:
+          CRON_URL: ${{ secrets.CRON_URL }}
+        run: |
+          END=$((SECONDS+780))
+          while [ $SECONDS -lt $END ]; do
+            node ping.js || true
+            sleep 280
+          done
