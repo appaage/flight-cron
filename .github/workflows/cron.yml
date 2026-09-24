@@ -2,7 +2,7 @@ name: Cron ping (headless browser)
 
 on:
   schedule:
-    - cron: '3-59/10 * * * *'   # every 5 minutes, offset from the hour to dodge GitHub's busiest moments
+    - cron: '2-59/5 * * * *'   # every 5 minutes, offset from the hour to dodge GitHub's busiest moments
   workflow_dispatch: {}         # lets you trigger it by hand from the Actions tab
 
 jobs:
